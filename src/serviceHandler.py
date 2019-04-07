@@ -1,0 +1,40 @@
+from flask import Flask, request, abort, Response
+import json
+from businessLogic import business
+
+app = Flask(__name__)
+ob = business()
+
+@app.route("/menusection", methods = ['GET'])
+def get_menu():
+	return ob.get_menu()
+
+@app.route("/menusection", methods = ['PUT'])
+def add_menu():
+	data, err_code = ob.add_menu_section(request.get_json())
+	if not data:
+		return Response(json.dumps({'success':False}, indent=4),status=err_code)
+	else:
+		return data
+
+@app.route("/menusection/<section_id>", methods = ['GET', 'POST','DELETE'])
+def operations(section_id):
+	if request.method == 'GET':
+		res = ob.get_menu_by_id(section_id)
+		if not res:
+			return Response(json.dumps({'success':False}, indent=4),status=400)
+		else:
+			return res
+
+	if request.method == 'DELETE':
+		res = ob.delete_menu_by_id(section_id)
+		if not res:
+			return Response(json.dumps({'success':False}, indent=4),status=400)
+		else:
+			return res
+
+	if request.method == 'POST':
+			return 0
+
+if __name__ == '__main__':
+	app.run(debug = True, port=ob.get_port())
