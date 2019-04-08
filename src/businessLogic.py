@@ -82,7 +82,6 @@ class business:
 
 	# UPDATE MENU SECTION OF GIVEN ID
 	def update_menu_by_id(self, menuid, content):
-
 		if content and len(content) == 1 and "name" in content.keys():
 			res = self.dataStore.update_menu_by_id(menuid, content)
 			if res > 0:
