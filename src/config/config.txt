@@ -1,2 +1,2 @@
-DB_NAME: test_db
+DB_NAME: TEST_DB_FT
 PORT: 6000

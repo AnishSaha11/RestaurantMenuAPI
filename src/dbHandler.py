@@ -4,6 +4,7 @@ class db:
 		self.db_file = db_file
 		self.init_tables()
 
+	# RETURN CONNECTION OBJECT
 	def getConnection(self):
 		try:
 			conn = sqlite3.connect(self.db_file)
@@ -12,30 +13,22 @@ class db:
 			print (e)
 		return None
 
-	def create_table(self, conn, create_sql):
-		try:
-			statement = conn.cursor()
-			statement.execute(create_sql)
-		except Error as e:
-			print (e)
-
+	# CREATE TABLES IF THEY DONT EXIST
 	def init_tables(self):
-		create_menu_table = """CREATE TABLE IF NOT EXISTS menu (
-									id integer PRIMARY KEY,
-									name text NOT NULL);"""
-		create_item_table = """CREATE TABLE IF NOT EXISTS item (
-									id integer PRIMARY KEY,
-									name text NOT NULL);"""
-
+		create_sqls = open("create_tables.sql").read()
 		conn = self.getConnection()
 		if conn:
-			self.create_table(conn, create_menu_table)
-			self.create_table(conn, create_item_table)
-			print ("Tables created")
+			with conn:
+				try:
+					statement = conn.cursor()
+					statement.executescript(create_sqls)
+				except Error as e:
+					print (e)
 		else:
 			print ("Connection ERROR: Could not create tables")
 		conn.close()
 
+	# INSERT MENU SECTION
 	def insert_menu(self, data):
 		insert_sql = "INSERT INTO menu(name) VALUES ('"+ data['name']+"')"
 		inserted_id = -1
@@ -47,9 +40,10 @@ class db:
 				inserted_id = statement.lastrowid
 				return inserted_id
 		else:
-			print ("Connection ERROR: Could not create tables")
+			print ("Connection ERROR: Could not connect to database")
 			return inserted_id
 
+	# RETURN ALL MENU SECTIONS
 	def get_menu(self):
 		fetch_sql = "SELECT * FROM menu"
 		conn = self.getConnection()
@@ -60,9 +54,10 @@ class db:
 				fetched_data = statement.fetchall()
 				return fetched_data
 		else:
-			print ("Connection ERROR: Could not create tables")
+			print ("Connection ERROR: Could not connect to database")
 			return None
 
+	# RETURN MENU SECTIONS WITH GIVEN ID
 	def get_menu_by_id(self, menuid):
 		fetch_sql = "SELECT * FROM menu WHERE id ='"+ menuid +"'"
 		conn = self.getConnection()
@@ -73,9 +68,10 @@ class db:
 				fetched_data = statement.fetchall()
 				return fetched_data
 		else:
-			print ("Connection ERROR: Could not create tables")
+			print ("Connection ERROR: Could not connect to database")
 			return None
 
+	# DELETE MENU SECTION OF GIVEN ID
 	def delete_menu_by_id(self, menuid):
 		del_sql = "DELETE from menu WHERE id ='"+ menuid +"'"
 		count_sql = "SELECT COUNT (*) FROM menu"
@@ -93,10 +89,23 @@ class db:
 				else:
 					return True
 		else:
-			print ("Connection ERROR: Could not create tables")
+			print ("Connection ERROR: Could not connect to database")
 			return False
 
-
+	# UPDATE MENU SECTION WITH GIVEN ID
+	def update_menu_by_id(self, menuid, data):
+		update_sql = "UPDATE menu SET name = '"+ data['name']+"' WHERE id='"+menuid+"'"
+		conn = self.getConnection()
+		rows_affected = -1
+		if conn:
+			with conn:
+				statement = conn.cursor()
+				statement.execute(update_sql)
+				rows_affected = statement.rowcount
+				return rows_affected
+		else:
+			print ("Connection ERROR: Could not connect to database")
+			return rows_affected
 """
 #FOR FILE DEBUG
 if __name__ == '__main__':

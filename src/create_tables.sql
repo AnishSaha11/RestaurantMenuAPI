@@ -1,0 +1,2 @@
+CREATE TABLE IF NOT EXISTS menu (id integer PRIMARY KEY, name text NOT NULL);
+CREATE TABLE IF NOT EXISTS item (id integer PRIMARY KEY, name text NOT NULL);
