@@ -1,9 +1,13 @@
 from flask import Flask, request, abort, Response
 import json
 from businessLogic import business
+import sys
 
 app = Flask(__name__)
-ob = business()
+if len(sys.argv)>1 and sys.argv[1] == "-test":
+	ob = business(True)
+else:
+	ob = business()
 
 @app.route("/menusection", methods = ['GET'])
 def get_menu():

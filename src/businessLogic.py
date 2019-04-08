@@ -1,10 +1,15 @@
 from dbHandler import db
 import collections
 import json
+import time
+
 class business:
-	def __init__(self):
+	def __init__(self, test=False):
 		self.read_config()
-		self.dataStore = db("db/"+self.config['DB_NAME:'])
+		if not test:
+			self.dataStore = db("db/"+self.config['DB_NAME:'])
+		else:
+			self.dataStore = db("db/testDB-"+str(time.time())+".db")
 
 	# READ CONFIGURATION FILE FOR DB NAME AND PORT NUMBER
 	def read_config(self):
