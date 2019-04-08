@@ -64,7 +64,7 @@ class business:
 
 	# ADD A NEW MENU SECTION
 	def add_menu_section(self, content):
-		if len(content) == 1 and "name" in content.keys():
+		if content and len(content) == 1 and "name" in content.keys():
 			res = self.dataStore.insert_menu(content)
 			if res > 0:
 				package = collections.defaultdict(list)
@@ -82,7 +82,8 @@ class business:
 
 	# UPDATE MENU SECTION OF GIVEN ID
 	def update_menu_by_id(self, menuid, content):
-		if len(content) == 1 and "name" in content.keys():
+
+		if conent and len(content) == 1 and "name" in content.keys():
 			res = self.dataStore.update_menu_by_id(menuid, content)
 			if res > 0:
 				package = collections.defaultdict(list)
