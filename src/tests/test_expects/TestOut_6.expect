@@ -1,0 +1,20 @@
+{
+    "MenuSection": [
+        {
+            "id": 1, 
+            "name": "Dinner Menu"
+        }, 
+        {
+            "id": 2, 
+            "name": "Lunch Menu Basic"
+        }, 
+        {
+            "id": 3, 
+            "name": "Breakfast Menu"
+        }, 
+        {
+            "id": 4, 
+            "name": "Lunch Menu Diet"
+        }
+    ]
+}
