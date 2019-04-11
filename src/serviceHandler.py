@@ -35,7 +35,7 @@ def operations(section_id):
 		if not res:
 			return Response(json.dumps({'success':False}, indent=4), status=400)
 		else:
-			return res
+			return Response(json.dumps(res, indent=4), status=204)
 
 	if request.method == 'PUT':
 		data , err_code = ob.update_menu_by_id(section_id, request.get_json())
