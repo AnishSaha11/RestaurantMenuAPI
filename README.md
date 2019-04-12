@@ -20,4 +20,3 @@ All output files are generated in the src/tests/test_out folder.
 Expected respose files are provided in the src/tests/test_expects/ folder.
 
 
-*************************************************X*****************************************************
